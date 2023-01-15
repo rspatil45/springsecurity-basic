@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
@@ -10,6 +11,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<c:if test="${param.passwordChanged != null}">
+		<i style="color: green;">Password Changed successfully</i>
+	</c:if>
+	
 	<h1>Hi ${username}</h1>
 	<h4>Role Assigned : ${roles}</h4>
 
@@ -22,6 +27,13 @@
 	<a href="/springsecurity/coder">Show Student's Dashboard</a>
 	</sec:authorize>
 	<br>
+	&nbsp;
+	<div>
+		<a href="deleteUser?username=${username}">Delete Account</a>
+	</div>
+	<div>
+		<a href="changePassword">Change Password</a>
+	</div>
 
 	<form:form action="logout" method="POST">
 		<input type="submit" value="logout">
