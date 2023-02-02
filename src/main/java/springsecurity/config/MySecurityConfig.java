@@ -24,6 +24,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 
+import springsecurity.service.UserDetailsServiceImpl;
+
 //public class MySecurityConfig extends WebSecurityConfigurerAdapter { //depricated
 //@Configuration alread present in @EnableWebSecurity
 //@EnableWebSecurity(debug = true) //to display security filter chain
@@ -32,6 +34,9 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
 //this class is going to help you create spring security chain
 	@Autowired
 	private DataSource dataSource;
+	
+	@Autowired
+	private UserDetailsServiceImpl userDetailsServiceImpl;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -77,10 +82,13 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
 //		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder);
 		
 //		using custom schemas
-		auth.jdbcAuthentication()
-		.dataSource(dataSource)
-		.usersByUsernameQuery("select username,password,enabled from customers where username = ? ")
-		.authoritiesByUsernameQuery("select username,authority from customers where username = ? ")
+//		auth.jdbcAuthentication()
+//		.dataSource(dataSource)
+//		.usersByUsernameQuery("select username,password,enabled from customers where username = ? ")
+//		.authoritiesByUsernameQuery("select username,authority from customers where username = ? ")
+//		.passwordEncoder(passwordEncoder);
+		
+		auth.userDetailsService(userDetailsServiceImpl)
 		.passwordEncoder(passwordEncoder);
 		
 	}
