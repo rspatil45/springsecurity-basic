@@ -1,20 +1,14 @@
 package springsecurity.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
-import org.apache.catalina.tribes.util.Arrays;
-import org.apache.tomcat.util.digester.ArrayStack;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
 import springsecurity.dao.CustomerDAO;
 import springsecurity.dto.Customer;
 
@@ -27,8 +21,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		Customer customer = customerDAO.loadCustomerByCustomerName(username);
-		if(customer == null)
+		List<Customer> customers = customerDAO.loadCustomerByCustomerName(username);
+		if(customers.isEmpty())
 		{
 			throw new UsernameNotFoundException(username + " this user not found");
 		}
@@ -41,9 +35,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		// and set the value for username, then password method is called to set value for password and so rles 
 		// at last build method is called which return object of UserDetails(it convert UserBuilder to UserDetails)
 		// here UserBuilder class is static so we can create its object without creating object of outer class(User)
-		UserDetails userDetails = User.withUsername(customer.getUsername())
-				.password(customer.getPassword())
-				.roles(customer.getAuthority(),"other")
+		UserDetails userDetails = User.withUsername(customers.get(0).getUsername())
+				.password(customers.get(0).getPassword())
+				.roles(customers.get(0).getAuthority(),"other")
 				.build();
 				
 		return userDetails;

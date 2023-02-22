@@ -1,5 +1,7 @@
 package springsecurity.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import springsecurity.dto.Customer;
@@ -7,5 +9,5 @@ import springsecurity.dto.Customer;
 @Service
 public interface CustomerDAO {
 
-	Customer loadCustomerByCustomerName(String name);
+	List<Customer> loadCustomerByCustomerName(String name);
 }
